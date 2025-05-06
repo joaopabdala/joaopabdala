@@ -1,12 +1,2 @@
-  ![Status](./profile-3d-contrib/profile-gitblock.svg)
+![Status](./profile-3d-contrib/profile-green-animate.svg)
   
-  ![Status](./profile-3d-contrib/profile-green-animate.svg)
-  ![Status](./profile-3d-contrib/profile-green.svg)
-  ![Status](./profile-3d-contrib/profile-night-green.svg)
-  ![Status](./profile-3d-contrib/profile-night-view.svg)
-  ![Status](./profile-3d-contrib/profile-season-animate.svg)
-  ![Status](./profile-3d-contrib/profile-south-season.svg)
-  ![Status](./profile-3d-contrib/profile-south-season-animate.svg)
-
-  
-  ![Status](./profile-3d-contrib/profile-season.svg)
