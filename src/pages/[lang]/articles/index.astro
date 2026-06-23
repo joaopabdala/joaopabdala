@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { withBase } from '../../../lib/url';
+import { locales, isLocale, t, type Locale } from '../../../data/site';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) throw new Error(`Unknown locale: ${lang}`);
+const locale = lang as Locale;
+
+const posts = (await getCollection('blog', (p) => p.data.lang === locale)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={t('articles_title', locale)} description={t('articles_intro', locale)} lang={locale}>
+  <section class="page pt-16 pb-8">
+    <h1 class="reveal text-[2.4rem] sm:text-[3rem]">{t('articles_title', locale)}</h1>
+    <p class="reveal mt-4 max-w-[40rem] text-[1.12rem]" style="color: var(--ink-soft); animation-delay: 60ms;">
+      {t('articles_intro', locale)}
+    </p>
+  </section>
+
+  <section class="page pb-12">
+    {
+      posts.length === 0 ? (
+        <p class="mono py-10 text-[0.9rem]" style="color: var(--muted);">{t('articles_empty', locale)}</p>
+      ) : (
+        <ul class="flex flex-col border-t" style="border-color: var(--line);">
+          {posts.map((post) => (
+            <li class="border-b" style="border-color: var(--line);">
+              <a
+                href={withBase(`${locale}/articles/${post.data.slug}`)}
+                class="group flex flex-col gap-1 py-6 no-underline sm:flex-row sm:items-baseline sm:gap-8"
+              >
+                <time
+                  class="mono w-32 shrink-0 pt-1 text-[0.72rem]"
+                  style="color: var(--muted);"
+                  datetime={post.data.date.toISOString()}
+                >
+                  {dateFmt.format(post.data.date)}
+                </time>
+                <div>
+                  <h2 class="text-[1.4rem] font-medium transition-colors group-hover:text-[var(--accent)]" style="color: var(--ink);">
+                    {post.data.title}
+                  </h2>
+                  <p class="mt-1.5 max-w-[40rem]" style="color: var(--ink-soft);">
+                    {post.data.description}
+                  </p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>

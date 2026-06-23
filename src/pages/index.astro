@@ -1,0 +1,21 @@
+---
+import { withBase } from '../lib/url';
+import { defaultLocale } from '../data/site';
+const target = withBase(defaultLocale);
+---
+
+<!doctype html>
+<html lang={defaultLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>João Paulo Abdala Bohaczk</title>
+  </head>
+  <body>
+    <a href={target}>Continue to the site →</a>
+    <script is:inline define:vars={{ target }}>
+      window.location.replace(target);
+    </script>
+  </body>
+</html>

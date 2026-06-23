@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { withBase } from '../../../lib/url';
+import { isLocale, t, type Locale } from '../../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { lang: post.data.lang, slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { lang } = Astro.params;
+if (!isLocale(lang)) throw new Error(`Unknown locale: ${lang}`);
+const locale = lang as Locale;
+
+const { Content } = await render(post);
+
+const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} lang={locale}>
+  <article class="page pt-14 pb-8">
+    <a href={withBase(`${locale}/articles`)} class="mono text-[0.74rem] no-underline transition-colors hover:text-[var(--accent)]" style="color: var(--muted);">
+      {t('article_back', locale)}
+    </a>
+
+    <header class="reveal mt-8 border-b pb-8" style="border-color: var(--line);">
+      <time class="mono text-[0.74rem]" style="color: var(--accent);" datetime={post.data.date.toISOString()}>
+        {dateFmt.format(post.data.date)}
+      </time>
+      <h1 class="mt-3 text-[2.3rem] leading-[1.08] sm:text-[2.9rem]">{post.data.title}</h1>
+      <p class="mt-4 max-w-[40rem] text-[1.15rem]" style="color: var(--ink-soft);">
+        {post.data.description}
+      </p>
+    </header>
+
+    <div class="prose reveal mt-10" style="animation-delay: 80ms;">
+      <Content />
+    </div>
+
+    {
+      post.data.originalUrl && (
+        <footer class="mt-12 border-t pt-6" style="border-color: var(--line);">
+          <a href={post.data.originalUrl} target="_blank" rel="noopener" class="link-accent mono text-[0.78rem]">
+            {t('article_read_original', locale)}
+          </a>
+        </footer>
+      )
+    }
+  </article>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import { links, profile, t, type Locale } from '../data/site';
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const year = new Date().getFullYear();
+
+const social = [
+  { label: 'GitHub', href: links.github },
+  { label: 'LinkedIn', href: links.linkedin },
+  { label: 'Substack', href: links.substack },
+  { label: 'Email', href: links.email },
+];
+---
+
+<footer class="mt-24 border-t" style="border-color: var(--line);">
+  <div class="page flex flex-col gap-3 py-8 sm:flex-row sm:items-center sm:justify-between">
+    <p class="mono text-[0.72rem]" style="color: var(--muted);">
+      © {year} {profile.name}
+    </p>
+    <nav class="flex flex-wrap gap-x-5 gap-y-1">
+      {
+        social.map((s) => (
+          <a
+            href={s.href}
+            class="mono text-[0.72rem] uppercase tracking-[0.12em] no-underline transition-colors hover:text-[var(--accent)]"
+            style="color: var(--muted);"
+            rel={s.href.startsWith('mailto:') ? undefined : 'me noopener'}
+            target={s.href.startsWith('mailto:') ? undefined : '_blank'}
+          >
+            {s.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+  <div class="page pb-8">
+    <p class="mono text-[0.68rem]" style="color: var(--muted);">
+      {t('footer_built', lang)}
+    </p>
+  </div>
+</footer>

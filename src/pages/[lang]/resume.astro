@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/url';
+import { profile, links, locales, isLocale, t, type Locale } from '../../data/site';
+import {
+  summary,
+  experience,
+  education,
+  certifications,
+  skills,
+  languages,
+  projects,
+  resumePdf,
+} from '../../data/resume';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) throw new Error(`Unknown locale: ${lang}`);
+const locale = lang as Locale;
+---
+
+<BaseLayout title={t('nav_resume', locale)} description={summary[locale]} lang={locale}>
+  <article class="page pt-16 pb-4">
+    <!-- Header -->
+    <header class="reveal flex flex-wrap items-end justify-between gap-4 border-b pb-6" style="border-color: var(--line-strong);">
+      <div>
+        <p class="eyebrow">{profile.tagline[locale]}</p>
+        <h1 class="mt-2 text-[2.4rem] leading-tight sm:text-[3rem]">{profile.name}</h1>
+        <p class="mono mt-3 text-[0.78rem]" style="color: var(--muted);">
+          {profile.location[locale]} ·
+          <a href={links.email} class="link-accent">{profile.email}</a>
+        </p>
+      </div>
+      <a
+        href={withBase(resumePdf[locale])}
+        class="mono inline-flex items-center gap-2 rounded-md border px-4 py-2 text-[0.74rem] uppercase tracking-[0.12em] no-underline transition-colors"
+        style="border-color: var(--line-strong); color: var(--ink);"
+        download
+      >
+        ↓ {t('resume_download', locale)}
+      </a>
+    </header>
+
+    <p class="reveal mt-7 max-w-[44rem] text-[1.1rem]" style="color: var(--ink-soft); animation-delay: 60ms;">
+      {summary[locale]}
+    </p>
+
+    <!-- Experience -->
+    <section class="mt-14">
+      <h2 class="eyebrow mb-6">{t('resume_experience', locale)}</h2>
+      <div class="flex flex-col gap-9">
+        {
+          experience.map((job) => (
+            <div class="grid gap-2 sm:grid-cols-[10rem_1fr] sm:gap-6">
+              <div class="mono pt-1 text-[0.74rem]" style="color: var(--muted);">
+                {job.period[locale]}
+              </div>
+              <div>
+                <h3 class="text-[1.25rem]" style="color: var(--ink);">
+                  {job.role[locale]} <span style="color: var(--accent);">·</span> {job.company}
+                </h3>
+                <p class="mt-1 text-[0.92rem] italic" style="color: var(--muted);">
+                  {job.context[locale]}
+                </p>
+                <ul class="mt-3 flex list-disc flex-col gap-1.5 pl-5" style="color: var(--ink-soft);">
+                  {job.bullets[locale].map((b) => (
+                    <li class="pl-1">{b}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Two-column meta blocks -->
+    <div class="mt-14 grid gap-12 sm:grid-cols-2">
+      <section>
+        <h2 class="eyebrow mb-5">{t('resume_education', locale)}</h2>
+        <h3 class="text-[1.1rem]" style="color: var(--ink);">{education.degree[locale]}</h3>
+        <p class="mt-1" style="color: var(--ink-soft);">{education.school[locale]}</p>
+        <p class="mono mt-1 text-[0.74rem]" style="color: var(--muted);">{education.period[locale]}</p>
+      </section>
+      <section>
+        <h2 class="eyebrow mb-5">{t('resume_certifications', locale)}</h2>
+        <ul class="flex flex-col gap-1" style="color: var(--ink-soft);">
+          {certifications[locale].map((c) => <li>{c}</li>)}
+        </ul>
+      </section>
+    </div>
+
+    <!-- Skills -->
+    <section class="mt-14">
+      <h2 class="eyebrow mb-6">{t('resume_skills', locale)}</h2>
+      <dl class="flex flex-col gap-4">
+        {
+          skills.map((row) => (
+            <div class="grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-6">
+              <dt class="mono pt-0.5 text-[0.74rem] uppercase tracking-[0.08em]" style="color: var(--muted);">
+                {row.label[locale]}
+              </dt>
+              <dd style="color: var(--ink-soft);">{row.items}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <!-- Showcase projects -->
+    <section class="mt-14">
+      <h2 class="eyebrow mb-6">{t('resume_projects', locale)}</h2>
+      <div class="flex flex-col gap-8">
+        {
+          projects.map((p) => (
+            <div>
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="link-accent text-[1.2rem]"
+                  style="font-family: var(--font-display); color: var(--ink);"
+                >
+                  {p.name}
+                </a>
+                <span class="mono text-[0.68rem]" style="color: var(--muted);">{p.tags.join(' · ')}</span>
+              </div>
+              <p class="mt-2" style="color: var(--ink-soft);">{p.summary[locale]}</p>
+              {p.highlights[locale].length > 0 && (
+                <ul class="mt-2 flex list-disc flex-col gap-1.5 pl-5 text-[0.96rem]" style="color: var(--ink-soft);">
+                  {p.highlights[locale].map((h) => (
+                    <li class="pl-1">{h}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Languages -->
+    <section class="mt-14">
+      <h2 class="eyebrow mb-6">{t('resume_languages', locale)}</h2>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {
+          languages.map((l) => (
+            <li class="flex items-baseline gap-3">
+              <span class="text-[1.05rem]" style="color: var(--ink);">{l.name[locale]}</span>
+              <span class="flex-1 border-b border-dotted" style="border-color: var(--line-strong);" />
+              <span class="mono text-[0.76rem]" style="color: var(--muted);">{l.level[locale]}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
