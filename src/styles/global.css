@@ -92,6 +92,7 @@ a { color: inherit; }
 .content { flex: 1; min-width: 0; }
 .container {
   max-width: var(--content-max);
+  margin-inline: auto;
   padding: 3rem 3.25rem 5rem;
 }
 
