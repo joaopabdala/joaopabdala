@@ -223,6 +223,19 @@ a { color: inherit; }
 }
 .prose pre code { background: none; border: none; padding: 0; }
 .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.2em 0; }
+.prose img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--line); border-radius: 8px;
+  margin: 1.6em 0 0.4em;
+}
+/* a standalone italic line right after an image reads as its caption */
+.prose img + em, .prose p > em:only-child {
+  display: block; font-size: 0.85rem; color: var(--muted); text-align: center;
+}
+.article-cover {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--line); border-radius: 10px;
+}
 
 /* ── Reveal ────────────────────────────────────────────────────────────── */
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }

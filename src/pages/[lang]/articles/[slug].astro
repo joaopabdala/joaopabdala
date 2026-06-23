@@ -40,6 +40,18 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
       <p class="lede">{post.data.description}</p>
     </header>
 
+    {
+      post.data.cover && (
+        <img
+          class="reveal article-cover"
+          src={post.data.cover}
+          alt={post.data.title}
+          loading="eager"
+          style="animation-delay: 80ms;"
+        />
+      )
+    }
+
     <div class="prose reveal" style="margin-top: 2rem; animation-delay: 100ms;">
       <Content />
     </div>
