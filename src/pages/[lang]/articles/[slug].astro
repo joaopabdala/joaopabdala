@@ -27,33 +27,31 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description} lang={locale}>
-  <article class="page pt-14 pb-8">
-    <a href={withBase(`${locale}/articles`)} class="mono text-[0.74rem] no-underline transition-colors hover:text-[var(--accent)]" style="color: var(--muted);">
+  <div class="container">
+    <a class="mono reveal" href={withBase(`${locale}/articles`)} style="font-size: 0.74rem; color: var(--muted); text-decoration: none; display: inline-block;">
       {t('article_back', locale)}
     </a>
 
-    <header class="reveal mt-8 border-b pb-8" style="border-color: var(--line);">
-      <time class="mono text-[0.74rem]" style="color: var(--accent);" datetime={post.data.date.toISOString()}>
+    <header class="reveal" style="margin-top: 1.4rem; padding-bottom: 1.6rem; border-bottom: 1px solid var(--line); animation-delay: 50ms;">
+      <time class="mono" style="font-size: 0.74rem; color: var(--accent);" datetime={post.data.date.toISOString()}>
         {dateFmt.format(post.data.date)}
       </time>
-      <h1 class="mt-3 text-[2.3rem] leading-[1.08] sm:text-[2.9rem]">{post.data.title}</h1>
-      <p class="mt-4 max-w-[40rem] text-[1.15rem]" style="color: var(--ink-soft);">
-        {post.data.description}
-      </p>
+      <h1 class="title" style="margin-top: 0.6rem;">{post.data.title}</h1>
+      <p class="lede">{post.data.description}</p>
     </header>
 
-    <div class="prose reveal mt-10" style="animation-delay: 80ms;">
+    <div class="prose reveal" style="margin-top: 2rem; animation-delay: 100ms;">
       <Content />
     </div>
 
     {
       post.data.originalUrl && (
-        <footer class="mt-12 border-t pt-6" style="border-color: var(--line);">
-          <a href={post.data.originalUrl} target="_blank" rel="noopener" class="link-accent mono text-[0.78rem]">
+        <footer style="margin-top: 2.5rem; padding-top: 1.4rem; border-top: 1px solid var(--line);">
+          <a class="mono" href={post.data.originalUrl} target="_blank" rel="noopener" style="font-size: 0.8rem; color: var(--link); text-decoration: none;">
             {t('article_read_original', locale)}
           </a>
         </footer>
       )
     }
-  </article>
+  </div>
 </BaseLayout>

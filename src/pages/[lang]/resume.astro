@@ -23,52 +23,37 @@ const locale = lang as Locale;
 ---
 
 <BaseLayout title={t('nav_resume', locale)} description={summary[locale]} lang={locale}>
-  <article class="page pt-16 pb-4">
-    <!-- Header -->
-    <header class="reveal flex flex-wrap items-end justify-between gap-4 border-b pb-6" style="border-color: var(--line-strong);">
+  <div class="container">
+    <header class="reveal" style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem; padding-bottom:1.4rem; border-bottom:1px solid var(--line-2);">
       <div>
         <p class="eyebrow">{profile.tagline[locale]}</p>
-        <h1 class="mt-2 text-[2.4rem] leading-tight sm:text-[3rem]">{profile.name}</h1>
-        <p class="mono mt-3 text-[0.78rem]" style="color: var(--muted);">
-          {profile.location[locale]} ·
-          <a href={links.email} class="link-accent">{profile.email}</a>
+        <h1 class="title">{profile.name}</h1>
+        <p class="mono" style="font-size:0.78rem; color:var(--muted); margin-top:0.6rem;">
+          {profile.location[locale]} · <a href={links.email} style="color:var(--link); text-decoration:none;">{profile.email}</a>
         </p>
       </div>
-      <a
-        href={withBase(resumePdf[locale])}
-        class="mono inline-flex items-center gap-2 rounded-md border px-4 py-2 text-[0.74rem] uppercase tracking-[0.12em] no-underline transition-colors"
-        style="border-color: var(--line-strong); color: var(--ink);"
-        download
-      >
+      <a class="lang-toggle" href={withBase(resumePdf[locale])} download style="font-size:0.76rem; padding:0.5rem 0.9rem;">
         ↓ {t('resume_download', locale)}
       </a>
     </header>
 
-    <p class="reveal mt-7 max-w-[44rem] text-[1.1rem]" style="color: var(--ink-soft); animation-delay: 60ms;">
-      {summary[locale]}
-    </p>
+    <p class="lede reveal" style="margin-top:1.6rem; animation-delay:50ms;">{summary[locale]}</p>
 
     <!-- Experience -->
-    <section class="mt-14">
-      <h2 class="eyebrow mb-6">{t('resume_experience', locale)}</h2>
-      <div class="flex flex-col gap-9">
+    <section>
+      <h2 class="section-label">{t('resume_experience', locale)}</h2>
+      <div style="display:flex; flex-direction:column; gap:2rem; margin-top:1.4rem;">
         {
           experience.map((job) => (
-            <div class="grid gap-2 sm:grid-cols-[10rem_1fr] sm:gap-6">
-              <div class="mono pt-1 text-[0.74rem]" style="color: var(--muted);">
-                {job.period[locale]}
-              </div>
+            <div class="rsm-row">
+              <div class="mono rsm-aside">{job.period[locale]}</div>
               <div>
-                <h3 class="text-[1.25rem]" style="color: var(--ink);">
-                  {job.role[locale]} <span style="color: var(--accent);">·</span> {job.company}
+                <h3 class="sans" style="font-size:1.15rem; color:var(--ink);">
+                  {job.role[locale]} <span style="color:var(--accent);">·</span> {job.company}
                 </h3>
-                <p class="mt-1 text-[0.92rem] italic" style="color: var(--muted);">
-                  {job.context[locale]}
-                </p>
-                <ul class="mt-3 flex list-disc flex-col gap-1.5 pl-5" style="color: var(--ink-soft);">
-                  {job.bullets[locale].map((b) => (
-                    <li class="pl-1">{b}</li>
-                  ))}
+                <p style="font-style:italic; color:var(--muted); font-size:0.92rem; margin-top:0.2rem;">{job.context[locale]}</p>
+                <ul class="rsm-bullets">
+                  {job.bullets[locale].map((b) => <li>{b}</li>)}
                 </ul>
               </div>
             </div>
@@ -77,33 +62,31 @@ const locale = lang as Locale;
       </div>
     </section>
 
-    <!-- Two-column meta blocks -->
-    <div class="mt-14 grid gap-12 sm:grid-cols-2">
+    <!-- Education + Certifications -->
+    <div style="display:grid; gap:2.5rem; margin-top:0.5rem;" class="rsm-two">
       <section>
-        <h2 class="eyebrow mb-5">{t('resume_education', locale)}</h2>
-        <h3 class="text-[1.1rem]" style="color: var(--ink);">{education.degree[locale]}</h3>
-        <p class="mt-1" style="color: var(--ink-soft);">{education.school[locale]}</p>
-        <p class="mono mt-1 text-[0.74rem]" style="color: var(--muted);">{education.period[locale]}</p>
+        <h2 class="section-label">{t('resume_education', locale)}</h2>
+        <h3 class="sans" style="font-size:1.05rem; color:var(--ink); margin-top:1.2rem;">{education.degree[locale]}</h3>
+        <p style="margin-top:0.2rem;">{education.school[locale]}</p>
+        <p class="mono" style="font-size:0.74rem; color:var(--muted); margin-top:0.2rem;">{education.period[locale]}</p>
       </section>
       <section>
-        <h2 class="eyebrow mb-5">{t('resume_certifications', locale)}</h2>
-        <ul class="flex flex-col gap-1" style="color: var(--ink-soft);">
+        <h2 class="section-label">{t('resume_certifications', locale)}</h2>
+        <ul style="list-style:none; padding:0; margin:1.2rem 0 0;">
           {certifications[locale].map((c) => <li>{c}</li>)}
         </ul>
       </section>
     </div>
 
     <!-- Skills -->
-    <section class="mt-14">
-      <h2 class="eyebrow mb-6">{t('resume_skills', locale)}</h2>
-      <dl class="flex flex-col gap-4">
+    <section>
+      <h2 class="section-label">{t('resume_skills', locale)}</h2>
+      <dl style="display:flex; flex-direction:column; gap:0.9rem; margin-top:1.4rem;">
         {
           skills.map((row) => (
-            <div class="grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-6">
-              <dt class="mono pt-0.5 text-[0.74rem] uppercase tracking-[0.08em]" style="color: var(--muted);">
-                {row.label[locale]}
-              </dt>
-              <dd style="color: var(--ink-soft);">{row.items}</dd>
+            <div class="rsm-row">
+              <dt class="mono rsm-aside" style="text-transform:uppercase; letter-spacing:0.05em;">{row.label[locale]}</dt>
+              <dd style="margin:0;">{row.items}</dd>
             </div>
           ))
         }
@@ -111,30 +94,20 @@ const locale = lang as Locale;
     </section>
 
     <!-- Showcase projects -->
-    <section class="mt-14">
-      <h2 class="eyebrow mb-6">{t('resume_projects', locale)}</h2>
-      <div class="flex flex-col gap-8">
+    <section>
+      <h2 class="section-label">{t('resume_projects', locale)}</h2>
+      <div style="display:flex; flex-direction:column; gap:1.6rem; margin-top:1.4rem;">
         {
           projects.map((p) => (
             <div>
-              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener"
-                  class="link-accent text-[1.2rem]"
-                  style="font-family: var(--font-display); color: var(--ink);"
-                >
-                  {p.name}
-                </a>
-                <span class="mono text-[0.68rem]" style="color: var(--muted);">{p.tags.join(' · ')}</span>
+              <div class="work-head">
+                <a class="work-title" href={p.url} target="_blank" rel="noopener">{p.name}</a>
+                <span class="tags">{p.tags.join(' · ')}</span>
               </div>
-              <p class="mt-2" style="color: var(--ink-soft);">{p.summary[locale]}</p>
+              <p style="margin-top:0.35rem;">{p.summary[locale]}</p>
               {p.highlights[locale].length > 0 && (
-                <ul class="mt-2 flex list-disc flex-col gap-1.5 pl-5 text-[0.96rem]" style="color: var(--ink-soft);">
-                  {p.highlights[locale].map((h) => (
-                    <li class="pl-1">{h}</li>
-                  ))}
+                <ul class="rsm-bullets">
+                  {p.highlights[locale].map((h) => <li>{h}</li>)}
                 </ul>
               )}
             </div>
@@ -144,19 +117,31 @@ const locale = lang as Locale;
     </section>
 
     <!-- Languages -->
-    <section class="mt-14">
-      <h2 class="eyebrow mb-6">{t('resume_languages', locale)}</h2>
-      <ul class="grid gap-3 sm:grid-cols-2">
+    <section>
+      <h2 class="section-label">{t('resume_languages', locale)}</h2>
+      <ul style="list-style:none; padding:0; margin:1.4rem 0 0; display:grid; gap:0.7rem;" class="rsm-two">
         {
           languages.map((l) => (
-            <li class="flex items-baseline gap-3">
-              <span class="text-[1.05rem]" style="color: var(--ink);">{l.name[locale]}</span>
-              <span class="flex-1 border-b border-dotted" style="border-color: var(--line-strong);" />
-              <span class="mono text-[0.76rem]" style="color: var(--muted);">{l.level[locale]}</span>
+            <li style="display:flex; align-items:baseline; gap:0.8rem;">
+              <span class="sans" style="color:var(--ink);">{l.name[locale]}</span>
+              <span style="flex:1; border-bottom:1px dotted var(--line-2);" />
+              <span class="mono" style="font-size:0.74rem; color:var(--muted);">{l.level[locale]}</span>
             </li>
           ))
         }
       </ul>
     </section>
-  </article>
+  </div>
 </BaseLayout>
+
+<style>
+  .rsm-row { display: grid; gap: 0.3rem; }
+  .rsm-aside { color: var(--muted); font-size: 0.74rem; padding-top: 0.15rem; }
+  .rsm-bullets { margin: 0.6rem 0 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .rsm-bullets li { padding-left: 0.2rem; }
+  .rsm-bullets li::marker { color: var(--accent); }
+  @media (min-width: 640px) {
+    .rsm-row { grid-template-columns: 9.5rem 1fr; gap: 1.5rem; }
+    .rsm-two { grid-template-columns: 1fr 1fr; }
+  }
+</style>

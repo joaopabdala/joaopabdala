@@ -1,0 +1,93 @@
+---
+import { withBase } from '../lib/url';
+import { profile, links, t, localeName, type Locale } from '../data/site';
+import { projects } from '../data/resume';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  lang: Locale;
+  path: string;
+}
+const { lang, path } = Astro.props;
+
+const nav = [
+  { key: 'nav_home' as const, href: withBase(`${lang}`) },
+  { key: 'nav_resume' as const, href: withBase(`${lang}/resume`) },
+  { key: 'nav_articles' as const, href: withBase(`${lang}/articles`) },
+];
+
+const norm = (s: string) => s.replace(/\/$/, '');
+function isActive(href: string): boolean {
+  const home = withBase(`${lang}`);
+  if (norm(href) === norm(home)) return norm(path) === norm(home);
+  return norm(path).startsWith(norm(href));
+}
+
+// Same page in the other locale.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rest = norm(path).slice(base.length);
+const otherLang: Locale = lang === 'en' ? 'pt' : 'en';
+const swapped = rest.replace(/^\/(en|pt)(?=\/|$)/, `/${otherLang}`);
+const altPath = `${base}${swapped || `/${otherLang}`}`;
+
+const social = [
+  { label: 'GitHub', href: links.github },
+  { label: 'LinkedIn', href: links.linkedin },
+  { label: 'Substack', href: links.substack },
+  { label: 'Email', href: links.email },
+];
+---
+
+<aside class="sidebar">
+  <a class="brand" href={withBase(`${lang}`)}>
+    <span class="brand-mark">J</span>
+    <span class="brand-name">{profile.shortName}<small>{profile.tagline[lang]}</small></span>
+  </a>
+
+  <nav>
+    {
+      nav.map((item) => (
+        <a
+          href={item.href}
+          class:list={['nav-link', { 'is-active': isActive(item.href) }]}
+          aria-current={isActive(item.href) ? 'page' : undefined}
+        >
+          {t(item.key, lang)}
+        </a>
+      ))
+    }
+  </nav>
+
+  <p class="nav-label">{t('home_featured_projects', lang)}</p>
+  <nav>
+    {
+      projects.map((p) => (
+        <a class="nav-link nav-sub" href={p.url} target="_blank" rel="noopener">
+          {p.name}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="sidebar-foot">
+    <div class="social-row">
+      {
+        social.map((s) => (
+          <a
+            href={s.href}
+            rel={s.href.startsWith('mailto:') ? undefined : 'me noopener'}
+            target={s.href.startsWith('mailto:') ? undefined : '_blank'}
+          >
+            {s.label}
+          </a>
+        ))
+      }
+    </div>
+    <div class="control-row">
+      <a class="lang-toggle" href={altPath} aria-label={`Switch to ${localeName(otherLang)}`}>
+        {localeName(lang)} <span style="opacity:.5">/</span> {localeName(otherLang)}
+      </a>
+      <ThemeToggle lang={lang} />
+    </div>
+  </div>
+</aside>

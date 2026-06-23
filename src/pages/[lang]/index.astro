@@ -2,14 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/url';
-import {
-  profile,
-  links,
-  locales,
-  isLocale,
-  t,
-  type Locale,
-} from '../../data/site';
+import { profile, links, locales, isLocale, t, type Locale } from '../../data/site';
 import { projects } from '../../data/resume';
 
 export function getStaticPaths() {
@@ -30,114 +23,69 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
 });
 
 const social = [
-  { label: 'GitHub', href: links.github },
-  { label: 'LinkedIn', href: links.linkedin },
-  { label: 'Substack', href: links.substack },
-  { label: 'Email', href: links.email },
+  { label: 'GitHub →', href: links.github },
+  { label: 'LinkedIn →', href: links.linkedin },
+  { label: 'Substack →', href: links.substack },
+  { label: 'Email →', href: links.email },
 ];
 ---
 
 <BaseLayout title="" description={profile.bio[locale]} lang={locale}>
-  <!-- Hero -->
-  <section class="page pt-16 pb-10 sm:pt-24">
-    <p class="eyebrow reveal" style="animation-delay: 0ms;">
-      {profile.tagline[locale]} · {profile.location[locale]}
-    </p>
-    <h1
-      class="reveal mt-4 text-[2.6rem] leading-[1.04] sm:text-[3.6rem]"
-      style="animation-delay: 60ms;"
-    >
-      {profile.name}
-    </h1>
-    <p
-      class="reveal mt-6 max-w-[40rem] text-[1.18rem]"
-      style="color: var(--ink-soft); animation-delay: 120ms;"
-    >
-      {profile.bio[locale]}
-    </p>
-    <div class="reveal mt-7 flex flex-wrap gap-x-6 gap-y-2" style="animation-delay: 180ms;">
-      {
-        social.map((s) => (
-          <a
-            href={s.href}
-            class="link-accent mono text-[0.8rem] uppercase tracking-[0.1em]"
-            rel={s.href.startsWith('mailto:') ? undefined : 'me noopener'}
-            target={s.href.startsWith('mailto:') ? undefined : '_blank'}
-          >
-            {s.label}
-          </a>
-        ))
-      }
-    </div>
-  </section>
-
-  <!-- Selected work -->
-  <section class="page py-12">
-    <h2 class="eyebrow mb-7" style="border-bottom: 1px solid var(--line); padding-bottom: 0.6rem;">
-      {t('home_featured_projects', locale)}
-    </h2>
-    <ul class="flex flex-col">
-      {
-        projects.map((p) => (
-          <li class="group border-b py-6" style="border-color: var(--line);">
-            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noopener"
-                class="text-[1.35rem] font-medium no-underline transition-colors group-hover:text-[var(--accent)]"
-                style="font-family: var(--font-display); color: var(--ink);"
-              >
-                {p.name}
-              </a>
-              <span class="mono text-[0.68rem]" style="color: var(--muted);">
-                {p.tags.join(' · ')}
-              </span>
-            </div>
-            <p class="mt-2 max-w-[42rem]" style="color: var(--ink-soft);">
-              {p.summary[locale]}
-            </p>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <!-- Latest writing -->
-  <section class="page py-12">
-    <div class="mb-7 flex items-baseline justify-between" style="border-bottom: 1px solid var(--line); padding-bottom: 0.6rem;">
-      <h2 class="eyebrow">{t('home_latest_articles', locale)}</h2>
-      <a href={withBase(`${locale}/articles`)} class="link-accent mono text-[0.72rem]">
-        {t('home_view_all_articles', locale)}
-      </a>
-    </div>
-    <ul class="flex flex-col">
-      {
-        posts.map((post) => (
-          <li class="border-b" style="border-color: var(--line);">
-            <a
-              href={withBase(`${locale}/articles/${post.data.slug}`)}
-              class="group flex flex-col gap-1 py-5 no-underline sm:flex-row sm:items-baseline sm:gap-6"
-            >
-              <time
-                class="mono w-28 shrink-0 text-[0.72rem]"
-                style="color: var(--muted);"
-                datetime={post.data.date.toISOString()}
-              >
-                {dateFmt.format(post.data.date)}
-              </time>
-              <div>
-                <h3 class="text-[1.2rem] font-medium transition-colors group-hover:text-[var(--accent)]" style="color: var(--ink);">
-                  {post.data.title}
-                </h3>
-                <p class="mt-1 text-[0.98rem]" style="color: var(--ink-soft);">
-                  {post.data.description}
-                </p>
-              </div>
+  <div class="container">
+    <header class="reveal">
+      <p class="eyebrow">{profile.tagline[locale]} · {profile.location[locale]}</p>
+      <h1 class="title">{profile.name}</h1>
+      <p class="lede">{profile.bio[locale]}</p>
+      <div class="links-row">
+        {
+          social.map((s) => (
+            <a href={s.href} rel={s.href.startsWith('mailto:') ? undefined : 'me noopener'} target={s.href.startsWith('mailto:') ? undefined : '_blank'}>
+              {s.label}
             </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+          ))
+        }
+      </div>
+    </header>
+
+    <section class="reveal" style="animation-delay: 70ms;">
+      <h2 class="section-label">{t('home_featured_projects', locale)}</h2>
+      <ul style="list-style: none; margin: 0; padding: 0;">
+        {
+          projects.map((p) => (
+            <li class="work-item">
+              <div class="work-head">
+                <a class="work-title" href={p.url} target="_blank" rel="noopener">{p.name}</a>
+                <span class="tags">{p.tags.join(' · ')}</span>
+              </div>
+              <p>{p.summary[locale]}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="reveal" style="animation-delay: 140ms;">
+      <div style="display:flex; align-items:baseline; justify-content:space-between;">
+        <h2 class="section-label" style="flex:1;">{t('home_latest_articles', locale)}</h2>
+        <a class="mono" href={withBase(`${locale}/articles`)} style="font-size:0.72rem; color:var(--accent); text-decoration:none; margin-left:1rem;">
+          {t('home_view_all_articles', locale)}
+        </a>
+      </div>
+      <ul style="list-style: none; margin: 0; padding: 0;">
+        {
+          posts.map((post) => (
+            <li>
+              <a class="post-row" href={withBase(`${locale}/articles/${post.data.slug}`)}>
+                <time class="post-date" datetime={post.data.date.toISOString()}>{dateFmt.format(post.data.date)}</time>
+                <span>
+                  <span class="post-title" style="display:block;">{post.data.title}</span>
+                  <span class="post-desc" style="display:block;">{post.data.description}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
 </BaseLayout>

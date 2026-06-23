@@ -24,45 +24,32 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
 ---
 
 <BaseLayout title={t('articles_title', locale)} description={t('articles_intro', locale)} lang={locale}>
-  <section class="page pt-16 pb-8">
-    <h1 class="reveal text-[2.4rem] sm:text-[3rem]">{t('articles_title', locale)}</h1>
-    <p class="reveal mt-4 max-w-[40rem] text-[1.12rem]" style="color: var(--ink-soft); animation-delay: 60ms;">
-      {t('articles_intro', locale)}
-    </p>
-  </section>
+  <div class="container">
+    <header class="reveal">
+      <h1 class="title">{t('articles_title', locale)}</h1>
+      <p class="lede">{t('articles_intro', locale)}</p>
+    </header>
 
-  <section class="page pb-12">
-    {
-      posts.length === 0 ? (
-        <p class="mono py-10 text-[0.9rem]" style="color: var(--muted);">{t('articles_empty', locale)}</p>
-      ) : (
-        <ul class="flex flex-col border-t" style="border-color: var(--line);">
-          {posts.map((post) => (
-            <li class="border-b" style="border-color: var(--line);">
-              <a
-                href={withBase(`${locale}/articles/${post.data.slug}`)}
-                class="group flex flex-col gap-1 py-6 no-underline sm:flex-row sm:items-baseline sm:gap-8"
-              >
-                <time
-                  class="mono w-32 shrink-0 pt-1 text-[0.72rem]"
-                  style="color: var(--muted);"
-                  datetime={post.data.date.toISOString()}
-                >
-                  {dateFmt.format(post.data.date)}
-                </time>
-                <div>
-                  <h2 class="text-[1.4rem] font-medium transition-colors group-hover:text-[var(--accent)]" style="color: var(--ink);">
-                    {post.data.title}
-                  </h2>
-                  <p class="mt-1.5 max-w-[40rem]" style="color: var(--ink-soft);">
-                    {post.data.description}
-                  </p>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )
-    }
-  </section>
+    <div class="reveal" style="animation-delay: 70ms; margin-top: 2rem; border-top: 1px solid var(--line);">
+      {
+        posts.length === 0 ? (
+          <p class="mono" style="color: var(--muted); padding: 2.5rem 0;">{t('articles_empty', locale)}</p>
+        ) : (
+          <ul style="list-style: none; margin: 0; padding: 0;">
+            {posts.map((post) => (
+              <li>
+                <a class="post-row" href={withBase(`${locale}/articles/${post.data.slug}`)} style="padding: 1.15rem 0;">
+                  <time class="post-date" datetime={post.data.date.toISOString()}>{dateFmt.format(post.data.date)}</time>
+                  <span>
+                    <span class="post-title" style="display:block; font-size: 1.18rem;">{post.data.title}</span>
+                    <span class="post-desc" style="display:block;">{post.data.description}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
 </BaseLayout>
