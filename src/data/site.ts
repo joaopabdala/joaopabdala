@@ -28,7 +28,7 @@ export const profile = {
 
 export const links = {
   github: 'https://github.com/joaopabdala',
-  linkedin: 'https://www.linkedin.com/in/joao-paulo-abdala/',
+  linkedin: 'https://www.linkedin.com/in/joaopabdala/',
   substack: 'https://joaopabdala.substack.com',
   email: `mailto:${profile.email}`,
 } as const;

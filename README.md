@@ -11,7 +11,7 @@ Rails**, with a soft spot for **Rust**.
 ---
 
 **Elsewhere**
-&nbsp;·&nbsp; [LinkedIn](https://www.linkedin.com/in/joao-paulo-abdala/)
+&nbsp;·&nbsp; [LinkedIn](https://www.linkedin.com/in/joaopabdala/)
 &nbsp;·&nbsp; [Substack](https://joaopabdala.substack.com)
 &nbsp;·&nbsp; [Email](mailto:okiabdala@gmail.com)
 
