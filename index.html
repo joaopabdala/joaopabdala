@@ -6,12 +6,12 @@
 <title>João Paulo Abdala Bohaczk — Full Stack Developer</title>
 <meta name="description" content="Full stack developer, mostly PHP/Laravel and Ruby on Rails. Work: Hotel pra Hoje, Palinha, Themys, BookHall, Cinemarchives.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://joaopabdala.github.io/joaopabdala/">
+<meta property="og:url" content="https://joaopabdala.dev/">
 <meta property="og:title" content="João Paulo Abdala Bohaczk — Full Stack Developer">
 <meta property="og:description" content="Mostly PHP/Laravel and Ruby on Rails. Work: BookHall, Cinemarchives, Themys, Hotel pra Hoje, Palinha.">
-<meta property="og:image" content="https://joaopabdala.github.io/joaopabdala/og-image.png">
+<meta property="og:image" content="https://joaopabdala.dev/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://joaopabdala.github.io/joaopabdala/og-image.png">
+<meta name="twitter:image" content="https://joaopabdala.dev/og-image.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2311131a'/%3E%3Crect x='10' y='10' width='12' height='12' fill='%23d9a441'/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/big-shoulders-display-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -36,6 +36,7 @@
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  html,body{overflow-x:clip;}
   body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); -webkit-font-smoothing:antialiased;}
   a{color:inherit;}
   img{max-width:100%;}
@@ -74,8 +75,9 @@
   .lang-select:hover, .lang-select:focus-visible{color:var(--accent); border-color:var(--accent);}
 
   /* mobile top bar */
-  .topbar{display:flex; border-bottom:1px solid var(--line); padding:16px; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); gap:12px;}
-  .topbar nav{display:flex; gap:16px;}
+  .topbar{display:grid; grid-template-columns:1fr auto; align-items:center; gap:12px 16px; border-bottom:1px solid var(--line); padding:14px 16px; font-family:var(--mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted);}
+  .topbar > span{white-space:nowrap; color:var(--ink);}
+  .topbar nav{grid-column:1 / -1; display:flex; justify-content:space-between; gap:12px;}
   .topbar a{text-decoration:none;}
   .topbar a:hover{color:var(--accent);}
   @media (min-width:860px){ .topbar{display:none;} }
@@ -84,7 +86,7 @@
 
   /* ---- hero: full-bleed, asymmetric, text pinned bottom-left ---- */
   .hero{
-    position:relative; min-height:min(76vh, 620px); display:flex; align-items:flex-end;
+    position:relative; min-height:0; padding-top:72px; display:flex; align-items:flex-end;
     border-bottom:1px solid var(--line); overflow:hidden;
     background:
       repeating-linear-gradient(130deg, rgba(217,164,65,0.14) 0 2px, transparent 2px 14px),
@@ -96,7 +98,7 @@
   .hero-inner .role{font-family:var(--mono); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:0 0 12px;}
   .hero-inner h1{font-family:var(--display); font-weight:900; font-size:clamp(2rem,6.4vw,3.2rem); line-height:0.96; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
   .hero-inner p{font-size:1rem; line-height:1.65; color:var(--muted); margin:0;}
-  @media (min-width:860px){ .hero-inner{padding:56px;} }
+  @media (min-width:860px){ .hero{min-height:min(76vh, 620px); padding-top:0;} .hero-inner{padding:56px;} }
 
   .content{max-width:62rem; margin:0 auto; padding:72px 24px 96px; display:flex; flex-direction:column; gap:96px;}
 
@@ -166,16 +168,16 @@
 <body>
   <div class="topbar">
     <span>J. ABDALA</span>
+    <select class="lang-select" id="langSelectMobile" aria-label="Language">
+      <option value="en">EN</option>
+      <option value="pt">PT</option>
+    </select>
     <nav>
       <a href="#projects" data-i18n="nav_projects">Projects</a>
       <a href="#work" data-i18n="nav_work">Work</a>
       <a href="#about" data-i18n="nav_about">About</a>
       <a href="#contact" data-i18n="nav_contact">Contact</a>
     </nav>
-    <select class="lang-select" id="langSelectMobile" aria-label="Language">
-      <option value="en">EN</option>
-      <option value="pt">PT</option>
-    </select>
   </div>
 
   <div class="shell">
