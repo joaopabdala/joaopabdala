@@ -6,7 +6,7 @@ I build and maintain web applications, design APIs, integrate systems, and care
 about clean deployments and observability. Mostly **PHP/Laravel** and **Ruby on
 Rails**, with a soft spot for **Rust**.
 
-### → [Portfolio & articles: joaopabdala.github.io/joaopabdala](https://joaopabdala.github.io/joaopabdala/)
+### → [Portfolio: joaopabdala.github.io/joaopabdala](https://joaopabdala.github.io/joaopabdala/)
 
 ---
 
@@ -17,11 +17,8 @@ Rails**, with a soft spot for **Rust**.
 
 **Selected work**
 
-- **[Cinemarchives](https://cinemarchives.com.br)** — searchable digital archive of
-  digitized cinema magazines. Ruby on Rails 8 · SQLite FTS5 · Hotwire · Kamal · Cloudflare.
-- **[tiko](https://github.com/joaopabdala/tiko)** — async Rust CLI to download
-  watermark-free TikTok videos in HD.
-- **[challenge-backend-laravel-php](https://github.com/joaopabdala/challenge-backend-laravel-php)**
-  — REST backend syncing an external store API, with Redis caching and queue workers.
+- **[BookHall](https://bookhall.app)** — digital reproduction of a personal bookshelf. Laravel · PostgreSQL · Docker.
+- **[Cinemarchives](https://cinemarchives.com.br)** — searchable digital archive of cinema magazines. Ruby on Rails · SQLite FTS5 · Hotwire · Kamal · Cloudflare.
+- **[Themys](https://themysrpg.com)** — tabletop RPG campaign manager. Ruby on Rails · Hotwire · ViewComponent.
 
-<sub>This profile and the portfolio site live in this repo, built with Astro and deployed to GitHub Pages.</sub>
+<sub>This profile README and the portfolio site (a single static page) live in this repo, deployed to GitHub Pages.</sub>
